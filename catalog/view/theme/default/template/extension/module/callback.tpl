@@ -1,7 +1,7 @@
 <style>
 #callback_form {
   width: 381px;
-  height: 242px;
+  height: 262px;
   margin: auto;
   background-color: #fff;
   border: 1px transparent solid;
@@ -23,7 +23,7 @@
     padding: 10px 80px 10px 10px;
     outline: none;
     border: 1px #ededed solid;
-    border-radius: 50px;
+    border-radius: 0px;
     margin-bottom: 5px;
     -webkit-transition: border .25s ease;
         -moz-transition: border .25s ease;
@@ -36,10 +36,10 @@
 #callback_form .button_wrapper {
     text-align: center;
     margin: 0 auto; }
-#callback_form .button_wrapper button{
+#callback_form .button_wrapper .fcallback{
     border: none;
     outline: none;
-    padding: 1px 53px;
+    padding: 11px 77px;
     background-color: #ff6700;
     color: #fff;
     -webkit-transition: background-color .4s ease, color .4s ease;
@@ -134,7 +134,7 @@ opacity: .1;}}
     </label>
      <div class="ok-message"></div>
     <div class="button_wrapper">
-    <button type="submit" class="button"><?php echo $entry_submit; ?></button>
+    <button type="submit" class="button fcallback""><?php echo $entry_submit; ?></button>
     </div>
   </form>
               <script type="text/javascript">
@@ -145,15 +145,22 @@ opacity: .1;}}
                   $(".fcallback").on('click', function() {
                     var name = $('.input-name').val();
                     var phone = $('.input-phone').val();
+                    console.log(name);
+                    console.log(phone);   
                     if(name!=''&&phone!=''){
                           $.ajax({
-                            type: "GET",
+                            type: "POST",
                             url: "/catalog/controller/extension/module/callback-sender.php",
                             data: 'name='+name+'&phone='+phone,
                             success: function() {
-                                  $('.ok-message').html('<?php echo $entry_ok; ?>');
-                                  setTimeout(function() { $('.ok-message').html(''); }, 2000)
-                              }
+                                console.log('OK');
+                                  //$('.ok-message').html('<?php echo $entry_ok; ?>');
+                                 $('body').append('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + 'Ваша заявка принята!' +  ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>')
+                                 setTimeout(2000);
+                              },
+                            error: function() {
+                              console.log('error');
+                            }
                           });
                       } else {
                         $('.ok-message').html('<?php echo $entry_error; ?>');
